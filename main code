@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>little game</title>
+  <style>
+    body { margin: 0; overflow: hidden; }
+    canvas { display: block; }
+    #instructions {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.7);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: sans-serif;
+      font-size: 24px;
+      text-align: center;
+      z-index: 10;
+      cursor: pointer;
+    }
+    #crosshair {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 20px;
+      height: 20px;
+      margin-left: -10px;
+      margin-top: -10px;
+      z-index: 5;
+      pointer-events: none;
+    }
+    #crosshair::before, #crosshair::after {
+      content: '';
+      position: absolute;
+      background: white;
+    }
+    #crosshair::before {
+      left: 9px;
+      top: 0;
+      width: 2px;
+      height: 20px;
+    }
+    #crosshair::after {
+      top: 9px;
+      left: 0;
+      width: 20px;
+      height: 2px;
+    }
+    #breakMessage {
+      position: absolute;
+      bottom: 20px;
+      width: 100%;
+      text-align: center;
+      font-family: sans-serif;
+      font-size: 24px;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+      z-index: 20;
+      text-shadow: 1px 1px 2px black;
+    }
+    .yellowMsg {
+      color: yellow;
+      text-shadow: 1px 1px 2px black;
+    }
+    .blackMsg {
+      color: black;
+      text-shadow: none;
+    }
+    #blackout {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: black;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 1s ease;
+      z-index: 1000;
+    }
+  </style>
+</head>
+<body>
+  <div id="instructions">click to start<br>wasd to move, mouse to look, left click to shoot<br><br>im being so fr when i say this was <br>written entierly by chatgpt</div>
+  <div id="crosshair"></div>
+  <div id="breakMessage"></div>
+  <div id="blackout"></div>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.min.js"></script>
+  <script>
+    let camera, scene, renderer;
+    let velocity = new THREE.Vector3();
+    let moveForward = false, moveBackward = false, moveLeft = false, moveRight = false, canJump = false;
+    let bullets = [];
+    let clock = new THREE.Clock();
+    let muzzleFlash;
+    let muzzleTimer = 0;
+    let targets = [];
+
+    let redRoom;
+    let inRedRoom = false;
+
+    // Red room bounds
+    const redRoomCenter = new THREE.Vector3(1000, 50, 0);
+    const redRoomHalfSize = 50;
+
+    // NEW: Blue room reference and message control
+    const blueRoomCenter = new THREE.Vector3(0, 10, 0);
+    const blueRoomHalfSize = 100;
+    let leftBlueRoomMessageShown = false;
+
+    const breakMessage = document.getElementById('breakMessage');
+    const blackout = document.getElementById('blackout');
+    let blackoutStarted = false;
+
+    function createRedRoom() {
+      if (!redRoom) {
+        redRoom = new THREE.Mesh(
+          new THREE.BoxGeometry(100, 100, 100),
+          new THREE.MeshBasicMaterial({ color: 0xff0000, side: THREE.BackSide })
+        );
+        redRoom.position.copy(redRoomCenter);
+        scene.add(redRoom);
+
+        const yellowTarget = new THREE.Mesh(
+          new THREE.BoxGeometry(2, 2, 2),
+          new THREE.MeshStandardMaterial({ color: 0xffff00 })
+        );
+        yellowTarget.position.set(redRoomCenter.x, 11, redRoomCenter.z - 20);
+        scene.add(yellowTarget);
+        targets.push(yellowTarget);
+      }
+    }
+
+    function init() {
+      scene = new THREE.Scene();
+      scene.background = new THREE.Color(0x202020);
+
+      camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 2000);
+      camera.position.set(0, 10, 0);
+
+      renderer = new THREE.WebGLRenderer();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      document.body.appendChild(renderer.domElement);
+
+      const light = new THREE.HemisphereLight(0xffffff, 0x444444);
+      scene.add(light);
+
+      const floor = new THREE.Mesh(
+        new THREE.PlaneGeometry(200, 200),
+        new THREE.MeshStandardMaterial({ color: 0x4444aa })
+      );
+      floor.rotation.x = -Math.PI / 2;
+      scene.add(floor);
+
+      const room = new THREE.Mesh(
+        new THREE.BoxGeometry(200, 100, 200),
+        new THREE.MeshBasicMaterial({ color: 0x4444aa, side: THREE.BackSide })
+      );
+      room.position.y = 50;
+      scene.add(room);
+
+      const gun = new THREE.Mesh(
+        new THREE.BoxGeometry(0.3, 0.3, 1),
+        new THREE.MeshBasicMaterial({ color: 0x000000 })
+      );
+      gun.position.set(0.4, -0.3, -1.5);
+      camera.add(gun);
+      scene.add(camera);
+
+      muzzleFlash = new THREE.PointLight(0xffaa00, 2, 5);
+      muzzleFlash.position.set(0, -0.1, -1);
+      camera.add(muzzleFlash);
+      muzzleFlash.visible = false;
+
+      const targetGeometry = new THREE.BoxGeometry(2, 2, 2);
+      const targetMaterial = new THREE.MeshStandardMaterial({ color: 0xff0000 });
+      const positions = [
+        new THREE.Vector3(0, 11, -30), new THREE.Vector3(-10, 11, -40),
+        new THREE.Vector3(10, 11, -50), new THREE.Vector3(-15, 11, -20),
+        new THREE.Vector3(15, 11, -25), new THREE.Vector3(0, 11, -60),
+        new THREE.Vector3(20, 11, -45), new THREE.Vector3(-20, 11, -55)
+      ];
+      positions.forEach(pos => {
+        const target = new THREE.Mesh(targetGeometry, targetMaterial.clone());
+        target.position.copy(pos);
+        scene.add(target);
+        targets.push(target);
+      });
+
+      document.getElementById('instructions').addEventListener('click', () => {
+        document.body.requestPointerLock();
+      });
+      document.addEventListener('pointerlockchange', () => {
+        document.getElementById('instructions').style.display =
+          document.pointerLockElement === document.body ? 'none' : 'flex';
+      });
+
+      const euler = new THREE.Euler(0, 0, 0, 'YXZ');
+      document.addEventListener('mousemove', (event) => {
+        if (document.pointerLockElement === document.body) {
+          const movementX = event.movementX || 0;
+          const movementY = event.movementY || 0;
+          euler.setFromQuaternion(camera.quaternion);
+          euler.y -= movementX * 0.005;
+          euler.x -= movementY * 0.005;
+          euler.x = Math.max(-Math.PI / 2, Math.min(Math.PI / 2, euler.x));
+          camera.quaternion.setFromEuler(euler);
+        }
+      });
+
+      document.addEventListener('keydown', (e) => {
+        if (e.code === 'KeyW') moveForward = true;
+        if (e.code === 'KeyS') moveBackward = true;
+        if (e.code === 'KeyA') moveLeft = true;
+        if (e.code === 'KeyD') moveRight = true;
+        if (e.code === 'Space' && canJump) {
+          velocity.y += 30;
+          canJump = false;
+        }
+      });
+      document.addEventListener('keyup', (e) => {
+        if (e.code === 'KeyW') moveForward = false;
+        if (e.code === 'KeyS') moveBackward = false;
+        if (e.code === 'KeyA') moveLeft = false;
+        if (e.code === 'KeyD') moveRight = false;
+      });
+
+      document.addEventListener('mousedown', () => {
+        if (document.pointerLockElement === document.body && !blackoutStarted) {
+          const bullet = new THREE.Mesh(
+            new THREE.SphereGeometry(0.1),
+            new THREE.MeshBasicMaterial({ color: 0xffaa00 })
+          );
+          bullet.position.copy(camera.position);
+          const dir = new THREE.Vector3();
+          camera.getWorldDirection(dir);
+          bullet.userData.velocity = dir.clone().multiplyScalar(50);
+          bullets.push(bullet);
+          scene.add(bullet);
+          muzzleFlash.visible = true;
+          muzzleTimer = 0.05;
+        }
+      });
+
+      window.addEventListener('resize', () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+      });
+    }
+
+    function clamp(value, min, max) {
+      return Math.min(Math.max(value, min), max);
+    }
+
+    function startBlackout() {
+      blackoutStarted = true;
+      blackout.style.pointerEvents = "auto";
+      blackout.style.opacity = "1";
+      while (scene.children.length > 0) {
+        scene.remove(scene.children[0]);
+      }
+    }
+
+    function animate() {
+      if (blackoutStarted) {
+        renderer.render(scene, camera);
+        return;
+      }
+
+      requestAnimationFrame(animate);
+      const delta = clock.getDelta();
+      const speed = 20;
+
+      velocity.x -= velocity.x * 10.0 * delta;
+      velocity.z -= velocity.z * 10.0 * delta;
+      velocity.y -= 50 * delta;
+
+      const direction = new THREE.Vector3();
+      direction.z = Number(moveForward) - Number(moveBackward);
+      direction.x = Number(moveRight) - Number(moveLeft);
+      direction.normalize();
+
+      const forward = new THREE.Vector3();
+      camera.getWorldDirection(forward);
+      forward.y = 0;
+      forward.normalize();
+
+      const right = new THREE.Vector3();
+      right.crossVectors(forward, camera.up).normalize();
+
+      if (moveForward || moveBackward)
+        camera.position.addScaledVector(forward, direction.z * speed * delta);
+      if (moveLeft || moveRight)
+        camera.position.addScaledVector(right, direction.x * speed * delta);
+
+      camera.position.y += velocity.y * delta;
+      if (camera.position.y < 10) {
+        velocity.y = 0;
+        camera.position.y = 10;
+        canJump = true;
+      }
+
+      if (inRedRoom) {
+        camera.position.x = clamp(camera.position.x, redRoomCenter.x - redRoomHalfSize + 1, redRoomCenter.x + redRoomHalfSize - 1);
+        camera.position.z = clamp(camera.position.z, redRoomCenter.z - redRoomHalfSize + 1, redRoomCenter.z + redRoomHalfSize - 1);
+        camera.position.y = clamp(camera.position.y, 10, redRoomCenter.y + redRoomHalfSize - 1);
+      }
+
+      for (let i = 0; i < bullets.length; i++) {
+        const bullet = bullets[i];
+        bullet.position.addScaledVector(bullet.userData.velocity, delta);
+
+        for (let j = 0; j < targets.length; j++) {
+          const target = targets[j];
+          if (target.position.distanceTo(bullet.position) < 1.5) {
+            scene.remove(target);
+            scene.remove(bullet);
+            targets.splice(j, 1);
+            bullets.splice(i, 1);
+            i--;
+
+            if (target.material.color.getHex() === 0xffff00) {
+              breakMessage.textContent = "you shouldn't have done that...";
+              breakMessage.classList.remove('yellowMsg');
+              breakMessage.classList.add('blackMsg');
+              breakMessage.style.opacity = '1';
+              clearTimeout(breakMessage._timeout);
+              breakMessage._timeout = setTimeout(() => {
+                breakMessage.style.opacity = '0';
+              }, 5000);
+              setTimeout(() => startBlackout(), 5500);
+            } else {
+              breakMessage.textContent = "doink";
+              breakMessage.classList.remove('blackMsg');
+              breakMessage.classList.add('yellowMsg');
+              breakMessage.style.opacity = '1';
+              clearTimeout(breakMessage._timeout);
+              breakMessage._timeout = setTimeout(() => {
+                breakMessage.style.opacity = '0';
+              }, 1000);
+            }
+
+            break;
+          }
+        }
+
+        if (bullet && bullet.position.distanceTo(camera.position) > 100) {
+          scene.remove(bullet);
+          bullets.splice(i, 1);
+          i--;
+        }
+      }
+
+      if (muzzleFlash.visible) {
+        muzzleTimer -= delta;
+        if (muzzleTimer <= 0) muzzleFlash.visible = false;
+      }
+
+      const originalRoomCenter = new THREE.Vector3(0, 10, 0);
+      if (!inRedRoom && camera.position.distanceTo(originalRoomCenter) > 700) {
+        createRedRoom();
+        camera.position.set(redRoomCenter.x, redRoomCenter.y - 35, redRoomCenter.z);
+        inRedRoom = true;
+      }
+
+      // NEW: show message when leaving blue room
+      const distanceFromBlueRoomCenter = camera.position.distanceTo(blueRoomCenter);
+      if (distanceFromBlueRoomCenter <= blueRoomHalfSize + 15) {
+        leftBlueRoomMessageShown = false;
+      }
+      if (distanceFromBlueRoomCenter > blueRoomHalfSize + 30 && !inRedRoom && !leftBlueRoomMessageShown) {
+        breakMessage.textContent = "why are you leaving.";
+        breakMessage.classList.remove('yellowMsg', 'blackMsg');
+        breakMessage.style.color = 'white';
+        breakMessage.style.opacity = '1';
+
+        clearTimeout(breakMessage._timeout);
+        breakMessage._timeout = setTimeout(() => {
+          breakMessage.style.opacity = '0';
+        }, 3000);
+
+        leftBlueRoomMessageShown = true;
+      }
+
+      renderer.render(scene, camera);
+    }
+
+    init();
+    animate();
+  </script>
+</body>
+</html>
