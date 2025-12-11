@@ -3,7 +3,7 @@ uh idfk what im doing here BUT
 if this site isnt blocked, https://tuff.speedslicer.dev/ 
 then go to a new blank google site and paste this code into a new fully embeded page;
 
-<!DOCTYPE html>
+"<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -91,7 +91,7 @@ then go to a new blank google site and paste this code into a new fully embeded 
         }
     </script>
 </body>
-</html>
+</html>"
 
 ________________________________________________________________________________________________________
 this will make a button that when u click it it launches a eagler (a very good one) into a about:blank tab, (keeps it fom getting blocked longer prob)(and nobody else will see the link) and if u wanna join my server lmk and ill give u instructions :D
