@@ -1,9 +1,8 @@
 hi kl here :P
-uh idfk what im doing here BUT
-if this site isnt blocked, https://tuff.speedslicer.dev/ 
-then go to a new blank google site and paste this code into a new fully embeded page;
+uh idfk what im doing here BUT.
+the button below will launch a eagler client into a about:blank tab, (if the client is blocked idk what to tell u im sorry 😔)
+its not a scam trust ik what im doing
 
-"<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
