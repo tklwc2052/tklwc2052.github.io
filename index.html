@@ -1,14 +1,94 @@
 <!DOCTYPE html>
-<html>
-<head><title>no clue what to call this but here we are</title></head>
-<body style="font-family: sans-serif; text-align: center; padding: 50px;">
-    <h1>howdy uhh yay.</h1>
-    <p>im a hs student trying to survive. making projects on the side</p>
-    <h2>things ive done so far</h2>
-    <p><a href="cccorp.onrender.com">CC Corp Chat</a> - a discord like site im building for me and my friends to use</p>
-    <p>i havent done too many big projects, ive mostly foucsed on making a chat site for my friends</p>
-    <p>ive gone through many diffrent versions of the site, using diffrent hosting platforms, however ive landed on a version that i love as of the moment and im continuing to update the website</p>
-    <hr>
-    <p>u can see my acc at https://github.com/tklwc2052/a></p>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ilikespacedotcom</title>
+    <style>
+        /* Console Theme Styling */
+        body {
+            background-color: #0a0a0a;
+            color: #00ff41; /* Classic Matrix/Terminal Green */
+            font-family: 'Courier New', Courier, monospace;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .terminal-window {
+            background-color: #1a1a1a;
+            border: 2px solid #333;
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(0, 255, 65, 0.2);
+            width: 100%;
+            max-width: 700px;
+            padding: 25px;
+            position: relative;
+        }
+
+        .header {
+            border-bottom: 1px solid #333;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            color: #888;
+            font-size: 0.9em;
+        }
+
+        h1 { font-size: 1.5rem; margin-top: 0; color: #fff; }
+        h2 { font-size: 1.2rem; border-bottom: 1px solid #00ff41; display: inline-block; }
+        
+        a { color: #00ff41; text-decoration: none; border-bottom: 1px dashed #00ff41; }
+        a:hover { background: #00ff41; color: #000; }
+
+        .cursor {
+            display: inline-block;
+            width: 10px;
+            height: 20px;
+            background-color: #00ff41;
+            animation: blink 1s infinite;
+            vertical-align: middle;
+            margin-left: 5px;
+        }
+
+        @keyframes blink {
+            0%, 49% { opacity: 1; }
+            50%, 100% { opacity: 0; }
+        }
+
+        .command { color: #ff00ff; } /* Pink color for "commands" */
+    </style>
+</head>
+<body>
+
+<div class="terminal-window">
+    <div class="header"</div>
+    
+    <p><span class="command">user@space:~$</span> whoami</p>
+    <h1>ilikespacedotcom</h1>
+    <p>im a hs student who is just trying to survive, im building this chat website on the side</p>
+
+    <p><span class="command">user@space:~$</span> stuff ive already made/working on</p>
+    <h2>Active Projects</h2>
+    <ul>
+        <li>
+            <strong><a href="cccorpchat.onrender.com">CC Corp Chat</a></strong> 
+            <br>chat app i made for me and my friends, still updating it as of now
+            <br><em>worked on and off for a few months, has main chat, dms, vc, and a few other things</em>
+        </li>
+    </ul>
+
+    <p><span class="command">user@space:~$</span> cat bio.txt</p>
+    <p>the cccorpchat is really the only project that ive made that i truly care abt, my friends have been suportive of it and have helped me test it, ty to them.</p>
+
+    <p><span class="command">user@space:~$</span> git remote -v</p>
+    <p>GitHub: <a href="https://github.com/tklwc2052">tklwc2052</a></p>
+
+    <p><span class="command">user@space:~$</span> <span class="cursor"></span></p>
+</div>
+
 </body>
 </html>
