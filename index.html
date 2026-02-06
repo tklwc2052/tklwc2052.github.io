@@ -1,92 +1,198 @@
-f<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ilikespacedotcom</title>
+    <title>ilikespacedotcom | Portfolio</title>
     <style>
-        /* Console Theme Styling */
+        /* Modern Reset & Base Styles */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
         body {
-            background-color: #0a0a0a;
-            color: #00ff41; /* Classic Matrix/Terminal Green */
-            font-family: 'Courier New', Courier, monospace;
+            background-color: #0f172a; /* Deep smooth navy/black */
+            color: #e2e8f0; /* Soft white for text */
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            padding: 2rem;
             display: flex;
             justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            padding: 20px;
-            line-height: 1.6;
         }
 
-        .terminal-window {
-            background-color: #1a1a1a;
-            border: 2px solid #333;
-            border-radius: 8px;
-            box-shadow: 0 0 20px rgba(0, 255, 65, 0.2);
+        /* Main Container */
+        .container {
             width: 100%;
-            max-width: 700px;
-            padding: 25px;
-            position: relative;
+            max-width: 800px;
         }
 
-        .header {
-            border-bottom: 1px solid #333;
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-            color: #888;
-            font-size: 0.9em;
+        /* Header / Hero Section */
+        header {
+            margin-bottom: 3rem;
+            border-bottom: 1px solid #1e293b;
+            padding-bottom: 2rem;
         }
 
-        h1 { font-size: 1.5rem; margin-top: 0; color: #fff; }
-        h2 { font-size: 1.2rem; border-bottom: 1px solid #00ff41; display: inline-block; }
-        
-        a { color: #00ff41; text-decoration: none; border-bottom: 1px dashed #00ff41; }
-        a:hover { background: #00ff41; color: #000; }
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(90deg, #818cf8, #c084fc); /* Purple/Indigo Gradient */
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
 
-        .cursor {
+        .subtitle {
+            font-size: 1.1rem;
+            color: #94a3b8;
+            margin-bottom: 1rem;
+        }
+
+        .bio {
+            color: #cbd5e1;
+            max-width: 600px;
+        }
+
+        /* Projects Section */
+        h2 {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: #fff;
+        }
+
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        /* Project Cards */
+        .card {
+            background-color: #1e293b; /* Lighter dark for cards */
+            border: 1px solid #334155;
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+            border-color: #818cf8;
+        }
+
+        .card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+            color: #818cf8;
+        }
+
+        .card p {
+            font-size: 0.95rem;
+            color: #cbd5e1;
+            margin-bottom: 1rem;
+        }
+
+        .tag {
             display: inline-block;
-            width: 10px;
-            height: 20px;
-            background-color: #00ff41;
-            animation: blink 1s infinite;
-            vertical-align: middle;
-            margin-left: 5px;
+            background-color: #0f172a;
+            color: #94a3b8;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.8rem;
+            margin-right: 0.5rem;
+            margin-top: 0.5rem;
         }
 
-        @keyframes blink {
-            0%, 49% { opacity: 1; }
-            50%, 100% { opacity: 0; }
+        /* Links & Buttons */
+        a {
+            text-decoration: none;
+            color: inherit;
         }
 
-        .command { color: #ff00ff; } /* Pink color for "commands" */
+        .btn-link {
+            display: inline-block;
+            margin-top: 1rem;
+            color: #818cf8;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .btn-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            color: #64748b;
+            font-size: 0.9rem;
+            margin-top: 4rem;
+        }
+        
+        footer a {
+            color: #94a3b8;
+            transition: color 0.2s;
+        }
+        
+        footer a:hover {
+            color: #fff;
+        }
     </style>
 </head>
 <body>
 
-<div class="terminal-window">
-    <div class="header"</div>
-    
-    <p>abt me kinda?</p>
-    <h1>ilikespacedotcom</h1>
-    <p>im a hs student who is just trying to survive, im building this chat website on the side</p>
+    <div class="container">
+        
+        <header>
+            <h1>ilikespacedotcom</h1>
+            <p class="subtitle">High School Student & Web Developer</p>
+            <p class="bio">
+                I'm just trying to survive high school while building cool stuff on the side. 
+                Focusing on web apps, chat systems, and surviving the spaghetti code.
+            </p>
+        </header>
 
-    <p> stuff ive already made/working on</p>
-    <h2>Active Projects</h2>
-    <ul>
-        <li>
-            <strong><a href="https://cccorpchat.onrender.com">CC Corp Chat</a></strong> 
-            <br>chat app i made for me and my friends, still updating it as of now
-            <br><em>worked on and off for a few months, has main chat, dms, vc, and a few other things</em>
-        </li>
-    </ul>
+        <section>
+            <h2>Active Projects</h2>
+            
+            <div class="project-grid">
+                
+                <div class="card">
+                    <a href="https://cccorpchat.onrender.com" target="_blank">
+                        <h3>CC Corp Chat</h3>
+                        <p>A full-featured chat application built for my friend group. Includes main chat, direct messages, and voice chat capabilities.</p>
+                        <div class="tags">
+                            <span class="tag">Web App</span>
+                            <span class="tag">Communication</span>
+                        </div>
+                        <span class="btn-link">View Project &rarr;</span>
+                    </a>
+                </div>
 
-    <p>idk somthing else abt the website</p>
-    <p>the cccorpchat is really the only project that ive made that i truly care abt, my friends have been suportive of it and have helped me test it, ty to them.</p>
+                <div class="card">
+                    <a href="#"> 
+                        <h3>[New Project Name]</h3>
+                        <p>This is the new project I am working on. It does X, Y, and Z to solve a specific problem.</p>
+                        <div class="tags">
+                            <span class="tag">In Progress</span>
+                            <span class="tag">Tech Stack</span>
+                        </div>
+                        <span class="btn-link">View Project &rarr;</span>
+                    </a>
+                </div>
 
-    <p> profile</p>
-    <p>GitHub: <a href="https://github.com/tklwc2052">tklwc2052</a></p>
+            </div>
+        </section>
 
-   
+        <footer>
+            <p>lookie at my profile <a href="https://github.com/tklwc2052" target="_blank">@tklwc2052</a></p>
+        </footer>
+
+    </div>
+
 </body>
 </html>
