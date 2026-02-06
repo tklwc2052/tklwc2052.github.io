@@ -269,8 +269,11 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const elements = document.querySelectorAll('.type-me');
-            const typeSpeed = 25; // Speed in ms (lower is faster)
-            const pauseTime = 100; // Pause between lines in ms
+            
+            // --- SETTINGS ---
+            const typeSpeed = 10; // Speed in ms (lower number = faster)
+            const pauseTime = 50; // Pause between lines in ms (lower number = faster)
+            // ----------------
 
             // 1. Prepare elements: Hide them and store their full HTML/Text
             const queue = [];
