@@ -76,6 +76,14 @@
             border-radius: 12px;
             padding: 1.5rem;
             transition: transform 0.2s ease, box-shadow 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        /* NEW STYLE: Forces the card to span the full width of the grid */
+        .card-wide {
+            grid-column: 1 / -1;
         }
 
         .card:hover {
@@ -111,11 +119,15 @@
         a {
             text-decoration: none;
             color: inherit;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
         }
 
         .btn-link {
             display: inline-block;
-            margin-top: 1rem;
+            margin-top: auto; /* Pushes button to bottom */
+            padding-top: 1rem;
             color: #818cf8;
             font-weight: 600;
             font-size: 0.9rem;
@@ -162,12 +174,14 @@
                 
                 <div class="card">
                     <a href="https://cccorpchat.onrender.com" target="_blank">
-                        <h3>C&C Corp Chat</h3>
-                        <p>weve got main chat, dms, voicechat, screensharing, and more.</p>
-                        <div class="tags">
-                            <span class="tag">Web App</span>
-                            <span class="tag">Communication</span>
-                            <span class="tag">In Progress</span>
+                        <div>
+                            <h3>C&C Corp Chat</h3>
+                            <p>weve got main chat, dms, voicechat, screensharing, and more.</p>
+                            <div class="tags">
+                                <span class="tag">Web App</span>
+                                <span class="tag">Communication</span>
+                                <span class="tag">In Progress</span>
+                            </div>
                         </div>
                         <span class="btn-link">View Project &rarr;</span>
                     </a>
@@ -175,14 +189,46 @@
 
                 <div class="card">
                     <a href="https://chaos-craft-multiplayer-testing.onrender.com/" target="_blank">
-                        <h3>fuh fuh fuh fuh forrkkliffttt</h3>
-                        <p>this isnt done, but its just going to be a simple online forklift sim.</p>
-                        <div class="tags">
-                            <span class="tag">In Progress</span>
-                            <span class="tag">forklift</span>
-                            <span class="tag">multiplayer</span>
+                        <div>
+                            <h3>fuh fuh fuh fuh forrkkliffttt</h3>
+                            <p>this isnt done, but its just going to be a simple online forklift sim.</p>
+                            <div class="tags">
+                                <span class="tag">In Progress</span>
+                                <span class="tag">forklift</span>
+                                <span class="tag">multiplayer</span>
+                            </div>
                         </div>
                         <span class="btn-link">View Project &rarr;</span>
+                    </a>
+                </div>
+
+                <div class="card card-wide">
+                    <a href="#" target="_blank">
+                        <div>
+                            <h3>Planned Feature: Space Mod</h3>
+                            <p>Currently sketching out ideas for a custom space exploration mod. Mechanics are still being decided, but think low gravity physics and custom ores.</p>
+                            <div class="tags">
+                                <span class="tag">Concept</span>
+                                <span class="tag">Java</span>
+                                <span class="tag">Modding</span>
+                            </div>
+                        </div>
+                        <span class="btn-link">Learn More &rarr;</span>
+                    </a>
+                </div>
+
+                <div class="card card-wide">
+                    <a href="#" target="_blank">
+                        <div>
+                            <h3>School Utilities Portal</h3>
+                            <p>A simple dashboard I'm mocking up to help track assignments and schedule study sessions. Might open source it if it actually helps me pass math.</p>
+                            <div class="tags">
+                                <span class="tag">Utility</span>
+                                <span class="tag">Tool</span>
+                                <span class="tag">Planned</span>
+                            </div>
+                        </div>
+                        <span class="btn-link">View Repo &rarr;</span>
                     </a>
                 </div>
 
