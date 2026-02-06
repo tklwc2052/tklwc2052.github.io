@@ -60,6 +60,7 @@
             font-size: 1.5rem;
             margin-bottom: 1.5rem;
             color: #fff;
+            margin-top: 1rem;
         }
 
         .project-grid {
@@ -81,9 +82,9 @@
             justify-content: space-between;
         }
 
-        /* NEW STYLE: Forces the card to span the full width of the grid */
-        .card-wide {
-            grid-column: 1 / -1;
+        /* Helper to add spacing after standalone cards */
+        .mb-large {
+            margin-bottom: 3rem;
         }
 
         .card:hover {
@@ -201,38 +202,40 @@
                         <span class="btn-link">View Project &rarr;</span>
                     </a>
                 </div>
-
-                <div class="card card-wide">
-                    <a href="#" target="_blank">
-                        <div>
-                            <h3>Planned Feature: Space Mod</h3>
-                            <p>Currently sketching out ideas for a custom space exploration mod. Mechanics are still being decided, but think low gravity physics and custom ores.</p>
-                            <div class="tags">
-                                <span class="tag">Concept</span>
-                                <span class="tag">Java</span>
-                                <span class="tag">Modding</span>
-                            </div>
-                        </div>
-                        <span class="btn-link">Learn More &rarr;</span>
-                    </a>
-                </div>
-
-                <div class="card card-wide">
-                    <a href="#" target="_blank">
-                        <div>
-                            <h3>School Utilities Portal</h3>
-                            <p>A simple dashboard I'm mocking up to help track assignments and schedule study sessions. Might open source it if it actually helps me pass math.</p>
-                            <div class="tags">
-                                <span class="tag">Utility</span>
-                                <span class="tag">Tool</span>
-                                <span class="tag">Planned</span>
-                            </div>
-                        </div>
-                        <span class="btn-link">View Repo &rarr;</span>
-                    </a>
-                </div>
-
             </div>
+
+            <h2>Space Mod Ideas</h2>
+            <div class="card mb-large">
+                <a href="#" target="_blank">
+                    <div>
+                        <h3>Planned Feature: Space Mod</h3>
+                        <p>Currently sketching out ideas for a custom space exploration mod. Mechanics are still being decided, but think low gravity physics and custom ores.</p>
+                        <div class="tags">
+                            <span class="tag">Concept</span>
+                            <span class="tag">Java</span>
+                            <span class="tag">Modding</span>
+                        </div>
+                    </div>
+                    <span class="btn-link">Learn More &rarr;</span>
+                </a>
+            </div>
+
+            <h2>School Tools</h2>
+            <div class="card mb-large">
+                <a href="#" target="_blank">
+                    <div>
+                        <h3>School Utilities Portal</h3>
+                        <p>A simple dashboard I'm mocking up to help track assignments and schedule study sessions. Might open source it if it actually helps me pass math.</p>
+                        <div class="tags">
+                            <span class="tag">Utility</span>
+                            <span class="tag">Tool</span>
+                            <span class="tag">Planned</span>
+                        </div>
+                    </div>
+                    <span class="btn-link">View Repo &rarr;</span>
+                </a>
+            </div>
+
         </section>
 
         <footer>
