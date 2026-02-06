@@ -42,6 +42,8 @@
             background: linear-gradient(90deg, #818cf8, #c084fc); /* Purple/Indigo Gradient */
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            /* Correction for typing animation on gradient text */
+            display: inline-block; 
         }
 
         .subtitle {
@@ -154,6 +156,27 @@
         footer a:hover {
             color: #fff;
         }
+
+        /* --- TYPEWRITER STYLES --- */
+        
+        /* The blinking cursor */
+        .typing-active::after {
+            content: '_';
+            display: inline-block;
+            margin-left: 2px;
+            color: #818cf8;
+            animation: blink 0.8s step-end infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        /* Hides elements before they are typed */
+        .waiting-to-type {
+            opacity: 0;
+        }
     </style>
 </head>
 <body>
@@ -161,88 +184,129 @@
     <div class="container">
         
         <header>
-            <h1>ilikespacedotcom</h1>
-            <p class="subtitle">hs student, minecraft player and website dev.</p>
-            <p class="bio">
+            <h1 class="type-me">ilikespacedotcom</h1>
+            <p class="subtitle type-me">hs student, minecraft player and website dev.</p>
+            <p class="bio type-me">
                 honestly man im just trying to survive hs, these are just side projects i got rn.
             </p>
         </header>
 
         <section>
-            <h2>Active Projects</h2>
+            <h2 class="type-me">Active Projects</h2>
             
             <div class="project-grid">
                 
                 <div class="card">
                     <a href="https://cccorpchat.onrender.com" target="_blank">
                         <div>
-                            <h3>C&C Corp Chat</h3>
-                            <p>weve got main chat, dms, voicechat, screensharing, and more.</p>
+                            <h3 class="type-me">C&C Corp Chat</h3>
+                            <p class="type-me">weve got main chat, dms, voicechat, screensharing, and more.</p>
                             <div class="tags">
-                                <span class="tag">Web App</span>
-                                <span class="tag">Communication</span>
-                                <span class="tag">In Progress</span>
+                                <span class="tag type-me">Web App</span>
+                                <span class="tag type-me">Communication</span>
+                                <span class="tag type-me">In Progress</span>
                             </div>
                         </div>
-                        <span class="btn-link">View Project &rarr;</span>
+                        <span class="btn-link type-me">View Project &rarr;</span>
                     </a>
                 </div>
 
                 <div class="card">
                     <a href="https://chaos-craft-multiplayer-testing.onrender.com/" target="_blank">
                         <div>
-                            <h3>fuh fuh fuh fuh forrkkliffttt</h3>
-                            <p>this isnt done, but its just going to be a simple online forklift sim.</p>
+                            <h3 class="type-me">fuh fuh fuh fuh forrkkliffttt</h3>
+                            <p class="type-me">this isnt done, but its just going to be a simple online forklift sim.</p>
                             <div class="tags">
-                                <span class="tag">In Progress</span>
-                                <span class="tag">forklift</span>
-                                <span class="tag">multiplayer</span>
+                                <span class="tag type-me">In Progress</span>
+                                <span class="tag type-me">forklift</span>
+                                <span class="tag type-me">multiplayer</span>
                             </div>
                         </div>
-                        <span class="btn-link">View Project &rarr;</span>
+                        <span class="btn-link type-me">View Project &rarr;</span>
                     </a>
                 </div>
             </div>
 
-            <h2>Minecraft</h2>
+            <h2 class="type-me">Minecraft</h2>
             <div class="card mb-large">
                 <a href="#" target="_blank">
                     <div>
-                        <h3>JASS2</h3>
-                        <p>JASS is short for Just Another Survival Server, its been up for a few weeks and is full of plugins. the community is great.</p>
+                        <h3 class="type-me">JASS2</h3>
+                        <p class="type-me">JASS is short for Just Another Survival Server, its been up for a few weeks and is full of plugins. the community is great.</p>
                         <div class="tags">
-                            <span class="tag">wss://server.speedslicer.dev</span>
-                            <span class="tag">Java</span>
-                            <span class="tag">Eagler</span>
+                            <span class="tag type-me">wss://server.speedslicer.dev</span>
+                            <span class="tag type-me">Java</span>
+                            <span class="tag type-me">Eagler</span>
                         </div>
                     </div>
-                    <span class="btn-link">no link dont click &rarr;</span>
+                    <span class="btn-link type-me">no link dont click &rarr;</span>
                 </a>
             </div>
 
-            <h2>Friends</h2>
+            <h2 class="type-me">Friends</h2>
             <div class="card mb-large">
                 <a href="https://luckyduck883.github.io/DucksWeb/" target="_blank">
                     <div>
-                        <h3>Lucky Duck</h3>
-                        <p>my friend luckyducks site, it has links to his projects and such</p>
+                        <h3 class="type-me">Lucky Duck</h3>
+                        <p class="type-me">my friend luckyducks site, it has links to his projects and such</p>
                         <div class="tags">
-                            <span class="tag">ducks</span>
-                            <span class="tag">quack</span>
-                            <span class="tag">cool guy</span>
+                            <span class="tag type-me">ducks</span>
+                            <span class="tag type-me">quack</span>
+                            <span class="tag type-me">cool guy</span>
                         </div>
                     </div>
-                    <span class="btn-link">view his profile &rarr;</span>
+                    <span class="btn-link type-me">view his profile &rarr;</span>
                 </a>
             </div>
 
         </section>
 
         <footer>
-            <p>lookie at my profile <a href="https://github.com/tklwc2052" target="_blank">@tklwc2052</a></p>
+            <p class="type-me">lookie at my profile <a href="https://github.com/tklwc2052" target="_blank">@tklwc2052</a></p>
         </footer>
 
     </div>
 
-</body>
-</html>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Configuration
+            const typingSpeed = 20; // Lower number = faster
+            const pauseBetweenElements = 150; // ms to wait after finishing a line
+
+            // Select all elements we want to animate (marked with class 'type-me')
+            // This grabs them in the exact order they appear in the HTML
+            const elementsToType = document.querySelectorAll('.type-me');
+
+            // Queue system
+            let queue = [];
+
+            // 1. Preparation Phase: Store data and hide text
+            elementsToType.forEach(el => {
+                // Save the original HTML (to preserve links/colors) and the plain text
+                const originalHTML = el.innerHTML;
+                const plainText = el.innerText;
+
+                // Store in our queue object
+                queue.push({
+                    element: el,
+                    html: originalHTML,
+                    text: plainText
+                });
+
+                // Clear content and hide initially to prevent FOUT (Flash of Unstyled Text)
+                el.innerHTML = "";
+                el.classList.add('waiting-to-type');
+            });
+
+            // 2. Typing Logic
+            async function processQueue() {
+                for (const item of queue) {
+                    const el = item.element;
+                    const text = item.text;
+
+                    // Reveal element (it's empty now, so invisible, but takes up space)
+                    el.classList.remove('waiting-to-type');
+                    el.classList.add('typing-active'); // Adds the blinking cursor
+
+                    // Type character by character
+                    for (let i = 0; i < text.
