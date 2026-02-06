@@ -42,8 +42,8 @@
             background: linear-gradient(90deg, #818cf8, #c084fc); /* Purple/Indigo Gradient */
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            /* Correction for typing animation on gradient text */
-            display: inline-block; 
+            /* Added for typing effect on gradient text */
+            display: inline-block;
         }
 
         .subtitle {
@@ -157,25 +157,24 @@
             color: #fff;
         }
 
-        /* --- TYPEWRITER STYLES --- */
-        
-        /* The blinking cursor */
+        /* --- NEW ANIMATION STYLES --- */
+        /* Hides text before it types */
+        .waiting-to-type {
+            opacity: 0;
+        }
+
+        /* The blinking cursor effect */
         .typing-active::after {
             content: '_';
             display: inline-block;
-            margin-left: 2px;
-            color: #818cf8;
-            animation: blink 0.8s step-end infinite;
+            margin-left: 3px;
+            color: #818cf8; /* Matches your theme accent */
+            animation: blink 0.9s infinite;
         }
 
         @keyframes blink {
             0%, 100% { opacity: 1; }
             50% { opacity: 0; }
-        }
-
-        /* Hides elements before they are typed */
-        .waiting-to-type {
-            opacity: 0;
         }
     </style>
 </head>
@@ -269,44 +268,50 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // Configuration
-            const typingSpeed = 20; // Lower number = faster
-            const pauseBetweenElements = 150; // ms to wait after finishing a line
+            const elements = document.querySelectorAll('.type-me');
+            const typeSpeed = 25; // Speed in ms (lower is faster)
+            const pauseTime = 100; // Pause between lines in ms
 
-            // Select all elements we want to animate (marked with class 'type-me')
-            // This grabs them in the exact order they appear in the HTML
-            const elementsToType = document.querySelectorAll('.type-me');
-
-            // Queue system
-            let queue = [];
-
-            // 1. Preparation Phase: Store data and hide text
-            elementsToType.forEach(el => {
-                // Save the original HTML (to preserve links/colors) and the plain text
-                const originalHTML = el.innerHTML;
-                const plainText = el.innerText;
-
-                // Store in our queue object
+            // 1. Prepare elements: Hide them and store their full HTML/Text
+            const queue = [];
+            elements.forEach(el => {
                 queue.push({
-                    element: el,
-                    html: originalHTML,
-                    text: plainText
+                    el: el,
+                    originalHtml: el.innerHTML,
+                    plainText: el.innerText
                 });
-
-                // Clear content and hide initially to prevent FOUT (Flash of Unstyled Text)
-                el.innerHTML = "";
-                el.classList.add('waiting-to-type');
+                el.innerHTML = ''; // Clear content
+                el.classList.add('waiting-to-type'); // Make invisible
             });
 
-            // 2. Typing Logic
-            async function processQueue() {
+            // 2. Async function to type sequentially
+            async function typeWriter() {
                 for (const item of queue) {
-                    const el = item.element;
-                    const text = item.text;
-
-                    // Reveal element (it's empty now, so invisible, but takes up space)
+                    const { el, plainText, originalHtml } = item;
+                    
+                    // Reveal element and add cursor
                     el.classList.remove('waiting-to-type');
-                    el.classList.add('typing-active'); // Adds the blinking cursor
+                    el.classList.add('typing-active');
+                    
+                    // Type text char by char
+                    for (let i = 0; i < plainText.length; i++) {
+                        el.textContent += plainText.charAt(i);
+                        await new Promise(res => setTimeout(res, typeSpeed));
+                    }
 
-                    // Type character by character
-                    for (let i = 0; i < text.
+                    // Restore original HTML (re-enables links and spans)
+                    el.innerHTML = originalHtml;
+                    el.classList.remove('typing-active');
+                    
+                    // Small pause before next line
+                    await new Promise(res => setTimeout(res, pauseTime));
+                }
+            }
+
+            // Start typing
+            typeWriter();
+        });
+    </script>
+
+</body>
+</html>
