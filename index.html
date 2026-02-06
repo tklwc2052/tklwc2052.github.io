@@ -157,7 +157,7 @@
             color: #fff;
         }
 
-        /* --- NEW ANIMATION STYLES --- */
+        /* --- ANIMATION STYLES --- */
         /* Hides text before it types */
         .waiting-to-type {
             opacity: 0;
@@ -168,7 +168,7 @@
             content: '_';
             display: inline-block;
             margin-left: 3px;
-            color: #818cf8; /* Matches your theme accent */
+            color: #818cf8;
             animation: blink 0.9s infinite;
         }
 
@@ -271,23 +271,31 @@
             const elements = document.querySelectorAll('.type-me');
             
             // --- SETTINGS ---
-            const typeSpeed = 10; // Speed in ms (lower number = faster)
-            const pauseTime = 50; // Pause between lines in ms (lower number = faster)
+            const typeSpeed = 10; // Speed in ms
+            const pauseTime = 50; // Pause between lines in ms
             // ----------------
 
-            // 1. Prepare elements: Hide them and store their full HTML/Text
             const queue = [];
+            
             elements.forEach(el => {
+                // 1. LOCK DIMENSIONS
+                // We calculate the height and width of the element *before* we empty it.
+                // This ensures the layout stays "popped open" and doesn't shift around.
+                el.style.minHeight = el.offsetHeight + 'px';
+                el.style.minWidth = el.offsetWidth + 'px';
+
+                // 2. Prepare Data
                 queue.push({
                     el: el,
                     originalHtml: el.innerHTML,
                     plainText: el.innerText
                 });
-                el.innerHTML = ''; // Clear content
-                el.classList.add('waiting-to-type'); // Make invisible
+                
+                // 3. Clear content and hide
+                el.innerHTML = ''; 
+                el.classList.add('waiting-to-type'); 
             });
 
-            // 2. Async function to type sequentially
             async function typeWriter() {
                 for (const item of queue) {
                     const { el, plainText, originalHtml } = item;
@@ -306,12 +314,10 @@
                     el.innerHTML = originalHtml;
                     el.classList.remove('typing-active');
                     
-                    // Small pause before next line
                     await new Promise(res => setTimeout(res, pauseTime));
                 }
             }
 
-            // Start typing
             typeWriter();
         });
     </script>
